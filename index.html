@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noble Hospital</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 10px 0;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+    }
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      text-align: center;
+    }
+    nav ul li {
+      display: inline;
+      margin-right: 20px;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+    }
+    main {
+      padding: 20px;
+    }
+    section {
+      margin-bottom: 30px;
+    }
+    footer {
+      background-color: #333;
+      color: #fff;
+      padding: 10px 0;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+    .container {
+      width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    input[type="submit"] {
+      width: 100%;
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+    .info {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome to Noble Hospital</h1>
+    <nav>
+      <ul>
+        <li><a href="#login">Login</a></li>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="login" class="container">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input type="text" id="email" name="email" placeholder="Email Address">
+        <input type="password" id="password" name="password" placeholder="Password">
+        <input type="submit" value="Login">
+      </form>
+      <p id="error" class="error"></p>
+    </section>
+
+    <section id="home">
+      <h2>Home</h2>
+      <div class="info">
+        <p>Welcome to Noble Hospital, where we strive to provide exceptional healthcare services to our community.</p>
+        <p>Our hospital is equipped with state-of-the-art facilities and staffed by highly trained medical professionals.</p>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2>About Us</h2>
+      <div class="info">
+        <p>Noble Hospital is committed to delivering compassionate and comprehensive healthcare to our patients.</p>
+        <p>Our mission is to improve the health and well-being of individuals and communities we serve.</p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contact Us</h2>
+      <div class="info">
+        <p>For inquiries and appointments, please contact us at:</p>
+        <p>Email: info@noblehospital.com</p>
+        <p>Phone: 123-456-7890</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Noble Hospital. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission
+      
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+      var errorElement = document.getElementById("error");
+      
+      // Basic validation
+      if (email.trim() === "") {
+        errorElement.textContent = "Email is required";
+        return;
+      }
+
+      if (password.trim() === "") {
+        errorElement.textContent = "Password is required";
+        return;
+      }
+
+      // If validation passes, you can proceed with further actions like AJAX request to server
+      // For this example, let's just show a success message
+      errorElement.textContent = ""; // Clear any previous error messages
+      alert("Email send successful!"); // Replace this with actual login logic
+      const recipientEmail = document.getElementById('email').value;
+
+      fetch('/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ recipientEmail }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while sending the email.');
+        window.location.href = "link.html"; // Replace "dashboard.html" with the URL of the dashboard page
+      
+      });
+    });
+
+
+  </script>
+</body>
+</html>

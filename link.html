@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTP Verification</title>
+  <style>
+    /* Add your CSS styles for OTP verification page here */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    input[type="submit"] {
+      width: 100%;
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>OTP Verification</h2>
+    <form id="otpForm">
+      <input type="text" id="otp" name="otp" placeholder="Enter OTP">
+      <input type="submit" value="Verify">
+    </form>
+    <p id="error" class="error"></p>
+  </div>
+
+  <script>
+    document.getElementById("otpForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission
+      
+      var otp = document.getElementById("otp").value;
+      var errorElement = document.getElementById("error");
+      
+      // Basic validation
+      if (otp.trim() === "") {
+        errorElement.textContent = "OTP is required";
+        return;
+      }
+
+      // If validation passes, send the OTP to the server for verification
+      errorElement.textContent = ""; // Clear any previous error messages
+
+      const email = getEmailFromLocalStorage(); // Retrieve email from local storage or wherever it's stored
+
+      fetch('/verify-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, otp }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert(data.message);
+          // Redirect the user to the desired page after successful OTP verification
+          // Example: window.location.href = "dashboard.html";
+        } else {
+          errorElement.textContent = data.message;
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while verifying OTP.');
+      });
+    });
+
+    function getEmailFromLocalStorage() {
+      // Implement logic to retrieve email from local storage
+      // Example: return localStorage.getItem('email');
+    }
+  </script>
+</body>
+</html>
